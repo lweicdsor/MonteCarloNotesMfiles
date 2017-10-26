@@ -7,7 +7,8 @@
 
 %%
 
-gail.InitializeWorkspaceDisplay %initialize the workspace and the display parameters
+function CLTCIfail %make it a function to not overwrite other variables
+gail.InitializeDisplay %initialize the display parameters
 
 %% The test case
 % Consider the case of \(Y = X^p\) where \(X \sim \mathcal{U}(0,1)\).  Then
@@ -25,21 +26,21 @@ gail.InitializeWorkspaceDisplay %initialize the workspace and the display parame
 %% Set up parameters
 % Now we try using |meanMC_CLT| on this test case
 
-tic
 absTol = 0.01; %error tolerance
 alpha = 0.01; %uncertainty
 Ntry = 5000; %number of trials
 Y=@(n,p) rand(n,1).^p; %Y=X^p where X is standard uniform
 mu = @(p) 1/(p+1); %true answer
-muhat=zeros(Ntry,1); %initialize
+muhat(Ntry,1) = 0; %initialize
 
 %% Run the simulation for a nice \(p\)
-p=0.4; %should be >-1 for mu to be finite, and >-0.5 for var(Y) to be finite
-for j=1:Ntry %perform Monte Carlo Ntry times
+p = 0.4; %should be >-1 for mu to be finite, and >-0.5 for var(Y) to be finite
+tic
+for j = 1:Ntry %perform Monte Carlo Ntry times
     [muhat(j),out]=meanMC_CLT(@(n) Y(n,p),absTol,0,alpha); %estimated mu using CLT confidence intervals
 end
-err=abs(mu(p)-muhat); %compute true error
-fail=mean(err>absTol); %proportion of failures to meet tolerance
+err = abs(mu(p)-muhat); %compute true error
+fail = mean(err>absTol); %proportion of failures to meet tolerance
 toc %compute elapsed time
 disp(['For Y = X.^' num2str(p)])
 disp('   with X distributed uniformly on [0, 1]')
@@ -54,15 +55,16 @@ disp(['   fails ' num2str(100*fail) '% of the time ' ...
 disp(' ')
 
 %%
-% This case works pretty well
+% This case works pretty well.
 
 %% Run the simulation again for a bad \(p\)
-p=-0.4; %should be >-1 for mu to be finite, and >-0.5 for var(Y) to be finite
-for j=1:Ntry %perform Monte Carlo Ntry times
+p = -0.4; %should be >-1 for mu to be finite, and >-0.5 for var(Y) to be finite
+tic
+for j = 1:Ntry %perform Monte Carlo Ntry times
     [muhat(j),out]=meanMC_CLT(@(n) Y(n,p),absTol,0,alpha); %estimated mu using CLT confidence intervals
 end
-err=abs(mu(p)-muhat); %compute true error
-fail=mean(err>absTol); %proportion of failures to meet tolerance
+err = abs(mu(p)-muhat); %compute true error
+fail = mean(err>absTol); %proportion of failures to meet tolerance
 toc %compute elapsed time
 
 %% Display results
@@ -77,7 +79,9 @@ disp(['   fails ' num2str(100*fail) '% of the time ' ...
    'for ' num2str(Ntry) ' trials'])
 
 %%
-% In this case the algorithm fails more than 1% of the time.
+% In this case the algorithm fails more than 1% of the time because the
+% variance estimates are not accurate.  One can check that the variance of
+% the variance is infinite.
 %
 % _Author: Fred J. Hickernell_
 

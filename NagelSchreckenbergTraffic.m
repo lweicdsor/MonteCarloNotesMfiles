@@ -6,7 +6,8 @@
 
 %%
 
-gail.InitializeWorkspaceDisplay %initialize the workspace and the display parameters
+function NagelSchreckenbergTraffic %make it a function to not overwrite other variables
+gail.InitializeDisplay %initialize the display parameters
 set(0,'defaultLineMarkerSize',3) %small dots
 tstart=tic; %start timer
 
@@ -22,7 +23,7 @@ tstart=tic; %start timer
 N=100; %number of vehicles on the track
 M=1000; %number of spaces on the track, who
 vmax=5; %speed limit
-p=1/3; %probability of slowing
+p=2/3; %probability of slowing
 
 %%
 % To mitigate the effect of initial conditions, we run the simulation for
@@ -32,7 +33,7 @@ p=1/3; %probability of slowing
 T0=2500; %number of burn in time steps
 T=5000; %number of time steps to be observed
 Tall=T0+T; %total number of time steps
-flowmax=M*T*vmax; %maximum flow of vehicles during the time observed
+flowmax=M*vmax; %maximum flow of vehicles during the time observed
 
 %%
 % We first initialize the variable used to record the positions of all
@@ -88,6 +89,7 @@ plotT=min(T,1000);
 plot(mod(x(T0+1+(0:plotT),:),M),repmat((0:plotT)',1,N),'b.')
 xlabel('Position')
 ylabel('Time')
+set(gcf,'Position',[680 558 840 630])
 print -depsc NSTraffic.eps
 disp(['Time for the graphical display = ' num2str(toc(tstart)) ' seconds'])
 

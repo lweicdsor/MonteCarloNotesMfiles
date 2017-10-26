@@ -12,12 +12,13 @@ save('PublishTime.mat','tPubStart') %save it because clearvars is invoked by dem
 % Simulation of the game of craps:
 publishMathJax('CrapsSimulation')
 
+%% 
+% How to use a function for repeated operations:
+publishMathJax('DemoUsingFunctions')
+
+%%
 % How to use Monte Carlo methods to price a European option:
 publishMathJax('OptionPricingExample')
-
-%% 
-% How to use a function for repeated operations
-publishMathJax('DemoUsingFunctions')
 
 %%
 % How to use Monte Carlo methods to model traffic flow:
@@ -37,7 +38,6 @@ publishMathJax('OptionPricingMeanMC_CLT')
 % How CLT-based confidence intervals can fail:
 publishMathJax('CLTCIfail')
 
-return
 %%
 % How price options to a given error tolerance using a guaranteed algorithm
 % for computing fixed width confidence intervals---this algorithm is in
@@ -58,7 +58,7 @@ publishMathJax('KeisterCubatureExample')
 
 %%
 % Multivariate normal (Gaussian) probability examble:
-publishMathJax MultivariateNormalProbabilityExample
+publishMathJax('MultivariateNormalProbabilityExample')
 
 %%
 % Simulating Brownian motions:

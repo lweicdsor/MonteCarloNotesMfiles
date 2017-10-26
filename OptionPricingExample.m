@@ -4,14 +4,15 @@
 % obligation, to conduct some transaction at a future date.
 
 %%
-gail.InitializeWorkspaceDisplay %initialize the workspace and the display parameters
+function OptionPricingExample %make it a function to not overwrite other variables
+gail.InitializeDisplay %initialize the display parameters
 
 %% Plot historical data
 % Here we load in the historical adjusted daily closing prices of a stock
 % and plot the most recent year's data.  The data were obtained from
 % <http://finance.yahoo.com> for GOOG for the period ending May 19, 2015.
 
-load stockPriceHistory -ascii %load one year of stock price data into memory
+load stockPriceHistory.txt -ascii %load one year of stock price data into memory
 S0 = stockPriceHistory(end); %stock price today
 Delta = 1/250; %daily time increment in years
 timeBefore = (-249:0) * Delta; %daily monitoring for one year prior to today
